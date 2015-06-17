@@ -22,6 +22,12 @@ func redirect(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func list(w http.ResponseWriter, r *http.Request) {
+	for fragment, target := range urls {
+		fmt.Fprintf(w, "http://goto.twcclan.org/%s => %s\n", fragment, target)
+	}
+}
+
 func main() {
 	file, err := os.Open("shorty.csv")
 	if err != nil {
@@ -42,6 +48,7 @@ func main() {
 		urls[record[0]] = record[1]
 	}
 
+	http.HandleFunc("/_list", list)
 	http.HandleFunc("/", redirect)
 
 	log.Println(http.ListenAndServe(":6060", nil))
