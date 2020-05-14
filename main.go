@@ -23,8 +23,10 @@ func redirect(w http.ResponseWriter, r *http.Request) {
 }
 
 func list(w http.ResponseWriter, r *http.Request) {
+	baseUrl := os.Getenv("BASE_URL")
+
 	for fragment, target := range urls {
-		fmt.Fprintf(w, "http://goto.twcclan.org/%s => %s\n", fragment, target)
+		fmt.Fprintf(w, "%s/%s => %s\n", baseUrl, fragment, target)
 	}
 }
 
